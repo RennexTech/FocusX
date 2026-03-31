@@ -1,4 +1,9 @@
+
 **⏳ FocusX:<br>**
+Version 5: <br>
+
+<img width="502" height="782" alt="image" src="https://github.com/user-attachments/assets/af8f2731-7c40-4983-ab3f-508f376558ea" />
+<br>
 ⏳The Pomodoro timer for those who ‘accidentally’ code for 7 hours straight, forget to blink.<br>
 ⏳For devs who treat hydration and eating as optional features. <br>
 ⏳The Pomodoro timer for terminal addicts who said ‘just 10 more minutes’... 5 hours ago.<br>
@@ -53,6 +58,9 @@ If I missed any dependencies, an error will appear once you run the app, just do
 > Download version 1 if you're not interested in the strict version 2.
 
 ![image](https://github.com/user-attachments/assets/a9c7947e-dee1-4aa0-87db-04eb6bdff412)
+
+ 
+
 
 
 
