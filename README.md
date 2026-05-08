@@ -1,3 +1,6 @@
+Version 9: Improvement - Your mouse and keyboard stop working during the break!😈No mercy like in the previous versions.
+
+<img width="402" height="552" alt="image" src="https://github.com/user-attachments/assets/0b535194-2baa-4916-bd2c-8742054f5558" />
 
 **⏳ FocusX:<br>**
 Version 5: <br>
