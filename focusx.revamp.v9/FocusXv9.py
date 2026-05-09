@@ -7,14 +7,14 @@ import psutil
 from pynput import mouse, keyboard
 import random
 
-# --- Hardcore Single-File Focus App ---
+# --- Hardcore Single-File Focus App (Looping Edition) ---
 
 class HardcoreTimer:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Deep Work Protocol")
         self.root.geometry("400x520")
-        self.root.configure(bg="#121212") # Slightly darker, cleaner black
+        self.root.configure(bg="#121212") 
         
         # Center the window logic
         screen_width = self.root.winfo_screenwidth()
@@ -25,7 +25,8 @@ class HardcoreTimer:
 
         # State Variables
         self.remaining_time = 0
-        self.break_time = 0
+        self.work_duration = 0  # To remember for looping
+        self.break_duration = 0 # To remember for looping
         self.is_running = False
         self.is_paused = False
         self.is_break = False
@@ -40,33 +41,33 @@ class HardcoreTimer:
         self.start_autostart_countdown()
 
     def setup_ui(self):
-        # Header - Using a cleaner Sans font
+        # Header
         self.header = tk.Label(self.root, text="SYSTEM INITIALIZED", 
-                               font=("Segoe UI", 16, "bold"), fg="#00ff00", bg="#121212")
+                                font=("Segoe UI", 16, "bold"), fg="#00ff00", bg="#121212")
         self.header.pack(pady=(30, 5))
 
-        # Autostart Label - Updated font to Verdana (clean and modern)
+        # Autostart Label
         self.auto_label = tk.Label(self.root, text=f"Launching in: {self.auto_start_seconds}s", 
-                                   font=("Verdana", 11, "italic"), fg="#aaaaaa", bg="#121212")
+                                    font=("Verdana", 11, "italic"), fg="#aaaaaa", bg="#121212")
         self.auto_label.pack()
 
-        # Mode Buttons (3D-ish style)
+        # Mode Buttons
         self.btn_frame = tk.Frame(self.root, bg="#121212")
         self.btn_frame.pack(pady=35)
 
         self.btn47 = tk.Button(self.btn_frame, text="47m FOCUS\n2m REST", width=14, height=3, 
-                               command=lambda: self.select_mode(47, 2),
-                               bg="#2e7d32", fg="white", font=("Segoe UI", 10, "bold"),
-                               relief="raised", bd=6, activebackground="#1b5e20", cursor="hand2")
+                                command=lambda: self.select_mode(47, 2),
+                                bg="#2e7d32", fg="white", font=("Segoe UI", 10, "bold"),
+                                relief="raised", bd=6, activebackground="#1b5e20", cursor="hand2")
         self.btn47.pack(side="left", padx=12)
 
         self.btn120 = tk.Button(self.btn_frame, text="120m DEEP\n4m REST", width=14, height=3, 
-                                command=lambda: self.select_mode(120, 4),
-                                bg="#1565c0", fg="white", font=("Segoe UI", 10, "bold"),
-                                relief="raised", bd=6, activebackground="#0d47a1", cursor="hand2")
+                                 command=lambda: self.select_mode(120, 4),
+                                 bg="#1565c0", fg="white", font=("Segoe UI", 10, "bold"),
+                                 relief="raised", bd=6, activebackground="#0d47a1", cursor="hand2")
         self.btn120.pack(side="left", padx=12)
 
-        # Timer Display - Big, bold, and modern
+        # Timer Display
         self.timer_label = tk.Label(self.root, text="00:00", 
                                     font=("Verdana", 50, "bold"), fg="#ff9800", bg="#121212")
         self.timer_label.pack(pady=10)
@@ -76,13 +77,13 @@ class HardcoreTimer:
         self.ctrl_frame.pack(pady=25)
 
         self.pause_btn = tk.Button(self.ctrl_frame, text="PAUSE", width=12, command=self.toggle_pause, 
-                                   state="disabled", bg="#333333", fg="#ffffff", relief="flat", 
-                                   font=("Segoe UI", 9, "bold"))
+                                    state="disabled", bg="#333333", fg="#ffffff", relief="flat", 
+                                    font=("Segoe UI", 9, "bold"))
         self.pause_btn.pack(side="left", padx=8)
 
         self.reset_btn = tk.Button(self.ctrl_frame, text="RESET", width=12, command=self.reset_app, 
-                                   state="disabled", bg="#c62828", fg="white", relief="flat",
-                                   font=("Segoe UI", 9, "bold"))
+                                    state="disabled", bg="#c62828", fg="white", relief="flat",
+                                    font=("Segoe UI", 9, "bold"))
         self.reset_btn.pack(side="left", padx=8)
 
     def start_autostart_countdown(self):
@@ -94,9 +95,12 @@ class HardcoreTimer:
             self.select_mode(47, 2)
 
     def select_mode(self, work, rest):
-        self.remaining_time = work * 60
-        self.break_time = rest * 60
+        self.work_duration = work * 60
+        self.break_duration = rest * 60
+        self.remaining_time = self.work_duration
         self.is_running = True
+        self.is_break = False
+        
         self.auto_label.config(text="PROTOCOL ENGAGED", fg="#00e5ff")
         self.btn47.config(state="disabled", relief="sunken", bg="#1b5e20")
         self.btn120.config(state="disabled", relief="sunken", bg="#0d47a1")
@@ -134,20 +138,31 @@ class HardcoreTimer:
                     mins, secs = divmod(self.remaining_time, 60)
                     self.root.after(0, self.timer_label.config, {"text": f"{mins:02d}:{secs:02d}"})
                 else:
+                    # Transition Logic
                     if not self.is_break:
+                        # Work ended -> Start Break
                         self.start_break()
                     else:
-                        self.root.after(0, self.reset_app)
-                        break
+                        # Break ended -> Back to Work (The Loop)
+                        self.end_break_and_restart_focus()
+            
             time.sleep(1)
 
     def start_break(self):
         self.is_break = True
-        self.remaining_time = self.break_time
+        self.remaining_time = self.break_duration
         self.root.after(0, self.timer_label.config, {"fg": "#ff1744"})
         self.root.after(0, self.pause_btn.config, {"state": "disabled"})
         self.root.after(0, self.show_blocker_overlay)
         self.block_inputs()
+
+    def end_break_and_restart_focus(self):
+        self.is_break = False
+        self.remaining_time = self.work_duration
+        # Update UI back to "Work" state
+        self.root.after(0, self.timer_label.config, {"fg": "#ff9800"})
+        self.root.after(0, self.pause_btn.config, {"state": "normal"})
+        self.unblock_everything()
 
     def show_blocker_overlay(self):
         self.overlay = tk.Toplevel(self.root)
@@ -177,7 +192,10 @@ class HardcoreTimer:
             self.root.after(1000, lambda: self.update_overlay_timer(label_widget))
         else:
             if hasattr(self, 'overlay'):
-                self.overlay.destroy()
+                try:
+                    self.overlay.destroy()
+                except:
+                    pass
 
     def block_inputs(self):
         self.mouse_listener = mouse.Listener(suppress=True)
@@ -187,15 +205,26 @@ class HardcoreTimer:
         threading.Thread(target=self.kill_task_manager, daemon=True).start()
 
     def unblock_everything(self):
-        if self.mouse_listener: self.mouse_listener.stop()
-        if self.kb_listener: self.kb_listener.stop()
-        if hasattr(self, 'overlay'): self.overlay.destroy()
+        if self.mouse_listener: 
+            self.mouse_listener.stop()
+            self.mouse_listener = None
+        if self.kb_listener: 
+            self.kb_listener.stop()
+            self.kb_listener = None
+        if hasattr(self, 'overlay'): 
+            try:
+                self.overlay.destroy()
+            except:
+                pass
 
     def kill_task_manager(self):
         while self.is_break and self.is_running:
             for proc in psutil.process_iter(['name']):
-                if proc.info['name'] == "Taskmgr.exe":
-                    proc.kill()
+                try:
+                    if proc.info['name'] == "Taskmgr.exe":
+                        proc.kill()
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    pass
             time.sleep(0.5)
 
     def run(self):
