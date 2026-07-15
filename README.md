@@ -1,4 +1,6 @@
 Version 14: Improvement - Your mouse and keyboard stop working during the break!😈No mercy like in the previous versions.
+No need to run as admin. Version 14 is simple and direct. Just place it in your startup folder and every time you launch your computer, you won't even need to touch the app. 
+Pomodoro counter auto-starts.
 
 <img width="402" height="552" alt="image" src="https://github.com/user-attachments/assets/aa2c1082-0c69-47df-9ea9-7352aae8579b" />
 <br>
