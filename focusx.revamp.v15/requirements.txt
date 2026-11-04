@@ -1,0 +1,4 @@
+psutil
+pynput
+nuitka
+ziglang
