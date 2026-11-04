@@ -1,50 +1,13 @@
-Version 14: Improvement - Your mouse and keyboard stop working during the break!😈No mercy like in the previous versions.
-No need to run as admin. Version 14 is simple and direct. Just place it in your startup folder and every time you launch your computer, you won't even need to touch the app. 
-Pomodoro counter auto-starts.
+Version 15 November 4th 2026:
+<img width="422" height="652" alt="image" src="https://github.com/user-attachments/assets/11694695-b911-4a73-bf62-86ff8add4f53" />
 
-<img width="402" height="552" alt="image" src="https://github.com/user-attachments/assets/aa2c1082-0c69-47df-9ea9-7352aae8579b" />
-<br>
-
-**⏳ FocusX:<br>**
-Version 5: <br>
-
-<img width="502" height="782" alt="image" src="https://github.com/user-attachments/assets/af8f2731-7c40-4983-ab3f-508f376558ea" />
-<br>
 ⏳The Pomodoro timer for those who ‘accidentally’ code for 7 hours straight, forget to blink.<br>
 ⏳For devs who treat hydration and eating as optional features. <br>
 ⏳The Pomodoro timer for terminal addicts who said ‘just 10 more minutes’... 5 hours ago.<br>
 ⏳A timer for the 1% of people who don’t need help starting, just stopping.
 <br>
-Yo, listen up! Computers are becoming just as addictive as phones — maybe even worse.
-FocusX is here to help you fight back: take breaks, stretch it out, then dive back into deep work.
-
-If you want to go full hardcore, pair FocusX with Cold Turkey Blocker.
-
-**FocusX** = your discipline timer + lockdown assistant + sleep deprivation assistant.
-
-**Cold Turkey** = blocks the apps & sites you know you can’t resist without mercy. 
-
-Together? You're a productivity superhero.
-Chill when it’s break time, focus like a monk when it’s not. 🧘‍♂️💻
-
-**## 🖼️ Interface Preview for version 3**
-<br> 
-<img width="566" height="573" alt="image" src="https://github.com/user-attachments/assets/a86134b3-dafb-46d3-863f-a9d4b3642a6c" />
-
-**## 🖼️ Interface Preview for version 2: Strictest version Ever!😈**
-
-![image](https://github.com/user-attachments/assets/e5465f4b-e612-4823-847f-0baca93cc048)
-
-**## ✨Features That Slap!**
-
-| Feature | Description |
-|--------|-------------|
-| **🧠 Custom Focus & Chill Sessions** | - Focus Mode: 30–50 min no mercy. <br> - Chill session: 2–10 min cool-down. |
-| **💪 Hardcore Mode** | - No pause, no exit once started. <br> - "X" button? Disabled. <br> - Task Manager? Auto-killed. |
-| **🌙 Night Time Lockdown** | - From 12 AM – 6 AM: fullscreen blackout.(not yet functional) <br> - Input lockdown. Go to sleep. Seriously. |
-| **🛡️ Startup Persistence** | - Auto-start on Windows login. <br> - You can add it properly to perform Self-restart via Task Scheduler and startup folder. |
-
----
+Yo, I made this coz computers are getting more addictive than phones. 
+FocusX helps you to take breaks for stretching, and its a perfect tool if combined with cold turkey blocker. 
 
 **## 🔧 Installation & Setup**
 
@@ -56,18 +19,5 @@ Copy this line and hit enter, it installs the dependencies.  <br>
 _**pip install pynput comtypes pycaw ntplib tzlocal psutil pywin32**_
 
 If I missed any dependencies, an error will appear once you run the app, just do "pip install [dependency name]", and you're good to go.
-
-> ⚠️ **IMPORTANT:** You **must** run FocusX as **Administrator** at least once to enable Hardcore Mode (auto-start, input blocking, etc).
-> <br>
-> It might take a while before I make a new updated version, so bear with me if I don't respond or make new updates.
-> 💬 I am never super active online — just came here to drop this tool and dip. <br>
-> Download version 1 if you're not interested in the strict version 2.
-
-![image](https://github.com/user-attachments/assets/a9c7947e-dee1-4aa0-87db-04eb6bdff412)
-
- 
-
-
-
 
 Have a nice time!
