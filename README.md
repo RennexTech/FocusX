@@ -1,6 +1,6 @@
-Version 15 November 4th 2026:
+Version 20 November 20th 2026:
 
-<img width="422" height="652" alt="image" src="https://github.com/user-attachments/assets/11694695-b911-4a73-bf62-86ff8add4f53" />
+<img width="1473" height="673" alt="image" src="https://github.com/user-attachments/assets/39d3c5d6-4cb1-4e3b-93bc-d18c849d02fa" />
 
 ⏳The Pomodoro timer for those who ‘accidentally’ code for 7 hours straight, forget to blink.<br>
 ⏳For devs who treat hydration and eating as optional features. <br>
