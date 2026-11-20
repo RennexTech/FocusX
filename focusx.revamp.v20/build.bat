@@ -16,8 +16,8 @@ if not exist "focusx.v20.py" (
     echo [ERROR] focusx.v20.py not found in %CD%
     pause & exit /b 1
 )
-if not exist "cherry.ico" (
-    echo [ERROR] cherry.ico not found in %CD%
+if not exist "resources\cherry.ico" (
+    echo [ERROR] resources\cherry.ico not found in %CD%
     pause & exit /b 1
 )
 
@@ -47,8 +47,8 @@ python -m nuitka ^
   --enable-plugin=tk-inter ^
   --include-package=pynput ^
   --windows-console-mode=disable ^
-  --windows-icon-from-ico=cherry.ico ^
-  --include-data-files=cherry.ico=cherry.ico ^
+  --windows-icon-from-ico=resources\cherry.ico ^
+  --include-data-files=resources\cherry.ico=resources\cherry.ico ^
   --product-name=FocusX ^
   --file-description="FocusX Deep Work Protocol" ^
   --product-version=20.0.0.0 ^
@@ -66,11 +66,11 @@ if errorlevel 1 (
 )
 
 echo.
-echo [4/4] Build OK:  %CD%\dist\FocusX.exe
+echo [4/4] Build OK:  %CD%\dist\FocusX.v20.exe
 echo.
 choice /c YN /m "Add FocusX to Windows Startup folder now"
 if errorlevel 2 goto done
-powershell -NoProfile -Command "$s=(New-Object -ComObject WScript.Shell).CreateShortcut([Environment]::GetFolderPath('Startup')+'\FocusX.lnk'); $s.TargetPath='%CD%\dist\FocusX.exe'; $s.WorkingDirectory='%CD%\dist'; $s.Save()"
+powershell -NoProfile -Command "$s=(New-Object -ComObject WScript.Shell).CreateShortcut([Environment]::GetFolderPath('Startup')+'\FocusX.lnk'); $s.TargetPath='%CD%\dist\FocusX.v20.exe'; $s.WorkingDirectory='%CD%\dist'; $s.Save()"
 echo Startup shortcut created.
 
 :done
