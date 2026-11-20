@@ -26,6 +26,7 @@ except ImportError:  # non-Windows (dev only)
 
 APP_NAME = "FocusX"
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ICON = os.path.join(BASE_DIR, "resources", "cherry.ico")
 DATA_DIR = os.path.join(os.environ.get("APPDATA", os.path.expanduser("~")), APP_NAME)
 SETTINGS_FILE = os.path.join(DATA_DIR, "settings.json")
 LOCK_PORT = 48653
@@ -160,6 +161,7 @@ class TimeSource:
                     self.status = f"NTP {server}  ({self.offset:+.2f}s)"
                     wait = 1800
                 except Exception:
+                    self.offset = 0.0
                     self.status = "NTP unreachable - using system clock"
                     wait = 60
             else:
@@ -174,12 +176,13 @@ class FocusX:
     def __init__(self):
         self.s = load_settings()
         self.clock = TimeSource(self.s)
+        self.rollover_stats(self.clock.now())
 
         self.root = tk.Tk()
         self.root.title("FocusX - Deep Work Protocol")
         self.root.configure(bg=BG)
         try:
-            self.root.iconbitmap(os.path.join(BASE_DIR, "cherry.ico"))
+            self.root.iconbitmap(ICON)
         except Exception:
             pass
         w, h = 1100, 640
@@ -195,7 +198,7 @@ class FocusX:
         self.phase_total = 1.0
         self.deadline = 0.0
         self.is_long = False
-        self.sessions_done = 0
+        self.sessions_done = int(self.s["stats"]["sessions"])
         self.last_tick = time.monotonic()
         self.last_save = time.monotonic()
         self.snooze_until = 0.0
@@ -503,7 +506,10 @@ class FocusX:
         self.unblock()
         self.sleep_warned_for = None
         self.state = "IDLE"
-        self.start_focus()
+        if self.s["autostart"]:
+            self.start_focus()
+        else:
+            self.autostart_deadline = None
 
     def handle_emergency(self):
         if self.state == "BREAK":
@@ -540,6 +546,7 @@ class FocusX:
         today = now.date().isoformat()
         if self.s["stats"].get("date") != today:
             self.s["stats"] = {"date": today, "focus_sec": 0.0, "sessions": 0}
+            self.sessions_done = 0
 
     # --------------------------------------------------------- overlay
     def show_overlay(self):
@@ -651,7 +658,7 @@ class FocusX:
         win.transient(self.root)
         win.resizable(False, False)
         try:
-            win.iconbitmap(os.path.join(BASE_DIR, "cherry.ico"))
+            win.iconbitmap(ICON)
         except Exception:
             pass
 
@@ -758,5 +765,9 @@ if __name__ == "__main__":
         pass
     lock = single_instance()
     if lock is None:
+        try:
+            messagebox.showinfo("FocusX", "FocusX is already running.")
+        except Exception:
+            pass
         sys.exit(0)  # already running (e.g. startup + manual launch)
     FocusX().run()
